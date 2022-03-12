@@ -1,53 +1,52 @@
 package com.example.se2_einzelphase.data;
 
-import com.example.se2_einzelphase.data.model.LoggedInUser;
+import com.example.se2_einzelphase.data.model.Martikelnumber;
 
 /**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
+ * Class that requests authentication and matnr information from the remote data source and
+ * maintains an in-memory cache of login status and matnr credentials information.
  */
 public class LoginRepository {
 
     private static volatile LoginRepository instance;
 
-    private LoginDataSource dataSource;
+    private AppDataSource appDataSource;
 
-    // If user credentials will be cached in local storage, it is recommended it be encrypted
+    // If matnr credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
-    private LoggedInUser user = null;
+    private Martikelnumber matnr = null;
 
     // private constructor : singleton access
-    private LoginRepository(LoginDataSource dataSource) {
-        this.dataSource = dataSource;
+    private LoginRepository(AppDataSource appDataSource) {
+        this.appDataSource = appDataSource;
     }
 
-    public static LoginRepository getInstance(LoginDataSource dataSource) {
+    public static LoginRepository getInstance(AppDataSource appDataSource) {
         if (instance == null) {
-            instance = new LoginRepository(dataSource);
+            instance = new LoginRepository(appDataSource);
         }
         return instance;
     }
 
     public boolean isLoggedIn() {
-        return user != null;
+        return matnr != null;
     }
 
     public void logout() {
-        user = null;
-        dataSource.logout();
+        matnr = null;
     }
 
-    private void setLoggedInUser(LoggedInUser user) {
-        this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
+    private void setLoggedInUser(Martikelnumber matnr) {
+        this.matnr = matnr;
+        // If matnr credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public AppResult<Martikelnumber> login(int matnr) {
         // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password);
-        if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
+        AppResult<Martikelnumber> result = appDataSource.login(matnr);
+        if (result instanceof AppResult.Success) {
+            setLoggedInUser(((AppResult.Success<Martikelnumber>) result).getData());
         }
         return result;
     }

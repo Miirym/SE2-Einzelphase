@@ -23,13 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se2_einzelphase.R;
-import com.example.se2_einzelphase.ui.login.LoginViewModel;
-import com.example.se2_einzelphase.ui.login.LoginViewModelFactory;
 import com.example.se2_einzelphase.databinding.ActivityLoginBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class AppActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    private AppViewModel AppViewModel;
     private ActivityLoginBinding binding;
 
     @Override
@@ -39,50 +37,50 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        AppViewModel = new ViewModelProvider(this, new ViewModelFactory())
+                .get(AppViewModel.class);
 
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final EditText matnr = binding.matnr;
+        TextView output = binding.textoutput;
+        final Button sendButton = binding.send;
+        final Button calcButton = binding.calculate;
         final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        AppViewModel.getFormState().observe(this, new Observer<FormState>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
+            public void onChanged(@Nullable FormState FormState) {
+                if (FormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                sendButton.setEnabled(FormState.isDataValid());
+                calcButton.setEnabled(FormState.isDataValid());
+                if (FormState.getMatnrError() != null) {
+                    matnr.setError(getString(FormState.getMatnrError()));
                 }
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        AppViewModel.getLoginResult().observe(this, new Observer<Result>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+            public void onChanged(@Nullable Result result) {
+                if (result == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (result.getError() != null) {
+                    showLoginFailed(result.getError());
                 }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                if (result.getSuccess() != null) {
+                    updateUiWithUser(result.getSuccess());
                 }
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+              //  finish();
             }
         });
 
+        //Add TextWatcher to trigger input validation function
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,36 +94,48 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                AppViewModel.inputDataChanged(matnr.getText().toString());
             }
         };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        matnr.addTextChangedListener(afterTextChangedListener);
+
+        //Don't need this for now (triggers function from keyboard enter)
+        /* matnr.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    AppViewModel.send(Integer.parseInt(matnr.getText().toString()));
                 }
                 return false;
             }
-        });
+        }); */
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        //Use Event listeners for buttons on click
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+               // loadingProgressBar.setVisibility(View.VISIBLE);
+                AppViewModel.send(Integer.parseInt(matnr.getText().toString()));
+
+                output.setText("Asdf");
+
+                String asd = matnr.getText().toString();
+                asd = asd.replace("1","9");
+                matnr.setText(asd);
+            }
+        });
+        calcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   loadingProgressBar.setVisibility(View.VISIBLE);
+              output.setText(  AppViewModel.calculate(Integer.parseInt(matnr.getText().toString())) );
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = getString(R.string.welcome) + model.getMatnr();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }

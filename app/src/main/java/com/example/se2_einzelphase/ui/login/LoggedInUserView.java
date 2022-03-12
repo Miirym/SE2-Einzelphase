@@ -4,14 +4,14 @@ package com.example.se2_einzelphase.ui.login;
  * Class exposing authenticated user details to the UI.
  */
 class LoggedInUserView {
-    private String displayName;
+    private int matnr;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(String displayName) {
-        this.displayName = displayName;
+    LoggedInUserView(int matnr) {
+        this.matnr = matnr;
     }
 
-    String getDisplayName() {
-        return displayName;
+    int getMatnr() {
+        return matnr;
     }
 }
