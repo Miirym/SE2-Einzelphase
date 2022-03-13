@@ -1,47 +1,50 @@
 package com.example.se2_einzelphase.ui.login;
 
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.se2_einzelphase.data.AppResult;
 import com.example.se2_einzelphase.data.AppDataSource;
-import com.example.se2_einzelphase.data.LoginRepository;
-import com.example.se2_einzelphase.data.model.Martikelnumber;
 import com.example.se2_einzelphase.R;
 
 
 public class AppViewModel extends androidx.lifecycle.ViewModel {
 
     private MutableLiveData<FormState> FormState = new MutableLiveData<>();
-    private MutableLiveData<Result> Result = new MutableLiveData<>();
-    private LoginRepository loginRepository;
-
-    AppViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
-    }
 
     LiveData<FormState> getFormState() {
         return FormState;
     }
 
-    LiveData<Result> getLoginResult() {
-        return Result;
-    }
 
-    public void send(int matnr) {
+    public void send(int matnr, TextView output) {
+
+        String a = String.valueOf(matnr);
+
+       AppDataSource source = new AppDataSource(output);
+       source.execute(a);
 
         // can be launched in a separate asynchronous job
-        AppResult result = loginRepository.login(matnr);
+        /*AppResult result = loginRepository.login(matnr);
         if (result instanceof AppResult.Success) {
             Martikelnumber data = ((AppResult.Success<Martikelnumber>) result).getData();
             Result.setValue(new Result(new LoggedInUserView(data.getMatnr())));
         } else {
             Result.setValue(new Result(R.string.login_failed));
-        }
+        }*/
     }
+
+    /*@Override
+    public void processFinish(AppResult<Martikelnumber> output) {
+        if (output instanceof AppResult.Success) {
+            Martikelnumber data = ((AppResult.Success<Martikelnumber>) output).getData();
+            Result.setValue(new Result(new LoggedInUserView(data.getMatnr())));
+        } else {
+            Result.setValue(new Result(R.string.login_failed));
+        }
+    }*/
+
 
     //Calculates checksum
     public String calculate(int matnr) {

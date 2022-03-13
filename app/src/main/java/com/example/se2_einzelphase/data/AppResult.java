@@ -12,7 +12,7 @@ public class AppResult<T> {
     public String toString() {
         if (this instanceof AppResult.Success) {
             AppResult.Success success = (AppResult.Success) this;
-            return "Success[data=" + success.getData().toString() + "]";
+            return success.getData().toString() ;
         } else if (this instanceof AppResult.Error) {
             AppResult.Error error = (AppResult.Error) this;
             return "Error[exception=" + error.getError().toString() + "]";
