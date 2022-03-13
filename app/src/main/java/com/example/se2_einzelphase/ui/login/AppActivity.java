@@ -72,14 +72,7 @@ public class AppActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // loadingProgressBar.setVisibility(View.VISIBLE);
-                AppViewModel.send(Integer.parseInt(matnr.getText().toString()), output);
-
-               // output.setText("Asdf");
-
-                /*String asd = matnr.getText().toString();
-                asd = asd.replace("1","9");
-                matnr.setText(asd);*/
+                AppViewModel.send(matnr.getText().toString(), output);
             }
         });
         calcButton.setOnClickListener(new View.OnClickListener() {

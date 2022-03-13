@@ -17,34 +17,12 @@ public class AppViewModel extends androidx.lifecycle.ViewModel {
         return FormState;
     }
 
-
-    public void send(int matnr, TextView output) {
-
-        String a = String.valueOf(matnr);
-
-       AppDataSource source = new AppDataSource(output);
-       source.execute(a);
-
-        // can be launched in a separate asynchronous job
-        /*AppResult result = loginRepository.login(matnr);
-        if (result instanceof AppResult.Success) {
-            Martikelnumber data = ((AppResult.Success<Martikelnumber>) result).getData();
-            Result.setValue(new Result(new LoggedInUserView(data.getMatnr())));
-        } else {
-            Result.setValue(new Result(R.string.login_failed));
-        }*/
+    //Triggers sending of matnr to server
+    public void send(String matnr, TextView output) {
+        //Use AsyncTask to send data to server
+        AppDataSource source = new AppDataSource(output);
+        source.execute(matnr);
     }
-
-    /*@Override
-    public void processFinish(AppResult<Martikelnumber> output) {
-        if (output instanceof AppResult.Success) {
-            Martikelnumber data = ((AppResult.Success<Martikelnumber>) output).getData();
-            Result.setValue(new Result(new LoggedInUserView(data.getMatnr())));
-        } else {
-            Result.setValue(new Result(R.string.login_failed));
-        }
-    }*/
-
 
     //Calculates checksum
     public String calculate(int matnr) {
@@ -54,29 +32,28 @@ public class AppViewModel extends androidx.lifecycle.ViewModel {
         //Split integer into digits
         int a = 0;
         while (matnr > 0) {
-            digits[a]=  matnr % 10;
+            digits[a] = matnr % 10;
             matnr = matnr / 10;
             a++;
         }
 
         //Calculate checksum
         int sum = 0;
-        for(int i = 0; i<digits.length; i++){
-            if(i%2 == 0){
-               sum += digits[i];
+        for (int i = 0; i < digits.length; i++) {
+            if (i % 2 == 0) {
+                sum += digits[i];
             } else {
-               sum -= digits[i];
+                sum -= digits[i];
             }
         }
 
         //Check if uneven
-        if (sum%2 != 0 ){
+        if (sum % 2 != 0) {
             checksum = "ungerade";
         }
 
         return checksum;
     }
-
 
     // Validate input on change
     public void inputDataChanged(String matnr) {
@@ -91,6 +68,5 @@ public class AppViewModel extends androidx.lifecycle.ViewModel {
     private boolean isMatnrValid(String matnr) {
         return matnr != null && matnr.trim().length() == 8;
     }
-
 
 }
