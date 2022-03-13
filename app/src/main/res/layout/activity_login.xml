@@ -15,7 +15,6 @@
         android:id="@+id/matnr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="308dp"
         android:autofillHints=""
         android:hint="@string/prompt_matnr"
         android:inputType="number"
@@ -23,59 +22,54 @@
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
         android:textColorHint="#757575"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.288" />
 
     <Button
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="64dp"
         android:enabled="false"
         android:text="@string/action_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.309"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.275"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoutput"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/calculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="64dp"
         android:enabled="false"
         android:text="@string/action_calculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.782"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintHorizontal_bias="0.693"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoutput"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textoutput"
-        android:layout_width="211dp"
-        android:layout_height="126dp"
-        android:layout_marginTop="412dp"
+        android:layout_width="233dp"
+        android:layout_height="129dp"
         android:gravity="center"
-        android:text="Result"
+        android:text="@string/result_placeholder"
         android:textAlignment="center"
         android:textColor="#000000"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="119dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/matnr"
+        app:layout_constraintVertical_bias="0.186" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

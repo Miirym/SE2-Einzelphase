@@ -26,7 +26,7 @@ public class AppViewModel extends androidx.lifecycle.ViewModel {
 
     //Calculates checksum
     public String calculate(int matnr) {
-        String checksum = "gerade";
+        String checksum = "Quersumme gerade";
         int[] digits = new int[10];
 
         //Split integer into digits
@@ -49,7 +49,7 @@ public class AppViewModel extends androidx.lifecycle.ViewModel {
 
         //Check if uneven
         if (sum % 2 != 0) {
-            checksum = "ungerade";
+            checksum = "Quersumme ungerade";
         }
 
         return checksum;
