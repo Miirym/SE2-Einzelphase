@@ -5,6 +5,6 @@
     <string name="action_send">Send</string>
     <string name="action_calculate">Calculate</string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_matnr">Matnr. must be 8 characters</string>
+    <string name="invalid_matnr">Matnr. must be 8 characters long</string>
     <string name="result_placeholder">"Result"</string>
 </resources>

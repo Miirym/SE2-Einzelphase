@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.se2_einzelphase.data.AppDataSource;
 import com.example.se2_einzelphase.R;
 
-
+/**
+ * Main class for processing in- and output
+ */
 public class AppViewModel extends androidx.lifecycle.ViewModel {
 
     private MutableLiveData<FormState> FormState = new MutableLiveData<>();

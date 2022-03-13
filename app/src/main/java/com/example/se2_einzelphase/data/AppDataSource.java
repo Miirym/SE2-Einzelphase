@@ -13,7 +13,7 @@ import java.net.Socket;
 
 
 /**
- * Responsible for sending to and getting response from server
+ * Sends/Receives data to/from Server
  */
 public class AppDataSource extends AsyncTask<String, String, AppResult<String>> {
 
@@ -31,16 +31,18 @@ public class AppDataSource extends AsyncTask<String, String, AppResult<String>> 
         String hostname = "se2-isys.aau.at";
         int port = 53212;
 
-        try (Socket socket = new Socket(hostname, port)) {
+        try (
+            //Create new socket
+            Socket socket = new Socket(hostname, port)) {
 
+            //Send data to server
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
             writer.println(param);
 
+            //Get data from Server
             InputStream input = socket.getInputStream();
-
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
             String answer = reader.readLine();
 
             return new AppResult.Success<>(answer);

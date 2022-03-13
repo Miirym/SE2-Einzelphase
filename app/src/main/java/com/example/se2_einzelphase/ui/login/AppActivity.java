@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.example.se2_einzelphase.databinding.ActivityLoginBinding;
 
+/**
+ * Main application class
+ */
 public class AppActivity extends AppCompatActivity {
 
     private AppViewModel AppViewModel;
@@ -25,6 +28,7 @@ public class AppActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Get UI fields and creates View
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -35,6 +39,7 @@ public class AppActivity extends AppCompatActivity {
         final Button sendButton = binding.send;
         final Button calcButton = binding.calculate;
 
+        //Add observer to check for FormState changes
         AppViewModel.getFormState().observe(this, new Observer<FormState>() {
             @Override
             public void onChanged(@Nullable FormState FormState) {
@@ -78,10 +83,9 @@ public class AppActivity extends AppCompatActivity {
         calcButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              output.setText(  AppViewModel.calculate(Integer.parseInt(matnr.getText().toString())) );
+                output.setText(AppViewModel.calculate(Integer.parseInt(matnr.getText().toString())));
             }
         });
     }
-
-
+    
 }

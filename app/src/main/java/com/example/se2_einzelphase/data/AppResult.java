@@ -1,7 +1,7 @@
 package com.example.se2_einzelphase.data;
 
 /**
- * A generic class that holds a result success w/ data or an error exception.
+ * Holds result success w/ data or an error exception
  */
 public class AppResult<T> {
     // hide the private constructor to limit subclass types (Success, Error)
@@ -12,7 +12,7 @@ public class AppResult<T> {
     public String toString() {
         if (this instanceof AppResult.Success) {
             AppResult.Success success = (AppResult.Success) this;
-            return success.getData().toString() ;
+            return success.getData().toString();
         } else if (this instanceof AppResult.Error) {
             AppResult.Error error = (AppResult.Error) this;
             return "Error[exception=" + error.getError().toString() + "]";
